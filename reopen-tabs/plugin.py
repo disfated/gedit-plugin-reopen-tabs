@@ -25,8 +25,7 @@ import time
 import os
 import sys
 import getopt
-import config_dlg
-import exit_dlg
+import ConfigParser
 import gettext
 
 APP_NAME = "plugin"
@@ -49,13 +48,8 @@ class ReopenTabsPlugin(gedit.Plugin):
 		self._state = RELOADER_STATE_WAIT
 
 	def activate(self, window):
-		# Create configuration dialog
-		self._dlg_conf = config_dlg.conf_dlg(None)
-		self._dlg_conf.connect("response", self._on_dlg_conf_response)
-		
-		# Get configuration dictionary
-		self._config = self._dlg_conf.get_config()
-		
+		self.read_config()
+
 		window.connect("active-tab-changed", self._on_active_tab_changed)
 		window.connect("active-tab-state-changed", self._on_active_tab_state_changed)
 
@@ -64,7 +58,38 @@ class ReopenTabsPlugin(gedit.Plugin):
 		
 	def deactivate(self, window):
 		pass
-		
+
+	def read_config(self): # Reads configuration from a file
+		# Get configuration dictionary
+		self._conf_path = os.path.join(os.path.expanduser("~/.gnome2/gedit/plugins/"), "reopen-tabs/plugin.conf")
+
+		# Check if configuration file does not exists
+		if not os.path.exists(self._conf_path):
+			# Create configuration file
+			conf_file = file(self._conf_path, "wt")
+			conf_file.close()
+
+		self._conf_file = file(self._conf_path, "r+")
+		self._config = ConfigParser.ConfigParser()
+		self._config.readfp(self._conf_file)
+		self._conf_file.close()
+
+		# Setup default configuration if needed
+		if not self._config.has_section("common"):
+			self._config.add_section("common")
+
+		if not self._config.has_option("common", "active_document"):
+			self._config.set("common", "active_document", "")
+
+		if not self._config.has_section("documents"):
+			self._config.add_section("documents")
+
+	def write_config(self): # Saves configuration to a file
+		self._conf_file = file(self._conf_path, "r+")
+		self._conf_file.truncate(0)
+		self._config.write(self._conf_file)
+		self._conf_file.close()
+
 	def _on_active_tab_changed(self, window, tab):
 		if self._state == RELOADER_STATE_WAIT:
 			self._state = RELOADER_STATE_READY
@@ -87,23 +112,6 @@ class ReopenTabsPlugin(gedit.Plugin):
 	def update_ui(self, window):
 		pass
 
-	def create_configure_dialog(self): # Upadtes configuration dialog (executes by framework)
-		# Update configuration dialog widgets
-		self._dlg_conf.load_conf()
-		self._dlg_conf.show_all()
-
-		# Return configuration dialog to framework
-		return self._dlg_conf
-
-	def _on_dlg_conf_response(self, dlg_conf, res): # Handles configuration dialog response
-		# Hide configuration dialog
-		dlg_conf.hide()
-
-		# Check if user pressed OK button
-		if res == gtk.RESPONSE_OK:
-			# Save configuration
-			self._dlg_conf.write_config()
-			
 	def _on_destroy(self, widget, event): # Handles window destory (saves tabs if required)
 		# Clear old document list
 		self._config.remove_section("documents")
@@ -113,21 +121,9 @@ class ReopenTabsPlugin(gedit.Plugin):
 		# Check if there is anything to save
 		if len(self._docs) > 0:
 			# Check if we need ask a user to save tabs
-			if self._config.getboolean("common", "save_prompt"):
-				# Create and run prompt dialog
-				dlg_save = exit_dlg.save_dlg(None, self._config)
-				dlg_save.connect("response", self._on_dlg_save_response)
-				dlg_save.run()
-			else:
-				self._save_tabs()
-				
-		self._dlg_conf.write_config()
-		
-	def _on_dlg_save_response(self, dlg, res): # Handles saving prompt response
-		# Check if user pressed YES button
-		if res == gtk.RESPONSE_YES:
-			# Save opened tabs in configuration file
 			self._save_tabs()
+
+		self.write_config()
 		
 	def _get_doc_list(self):
 		# Get document URI list
