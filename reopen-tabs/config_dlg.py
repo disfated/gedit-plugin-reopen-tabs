@@ -25,72 +25,71 @@ import ConfigParser
 import os
 
 class conf_dlg(gtk.Dialog):
-    def __init__(self, parent):
-        # Create config diaog window
-        title = _("Reopen Tabs Plugin Configuration")
-        buttons = (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK)
+	def __init__(self, parent):
+		# Create config diaog window
+		title = _("Reopen Tabs Plugin Configuration")
+		buttons = (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK)
 
-        super(conf_dlg, self).__init__(title, parent, 0, buttons)
-        
-        # Create configuration items
-        self._chk_save = gtk.CheckButton(_("Ask for saving on exit"))
-        self._chk_save.connect("toggled", self._on_chk_save_toggled)
-        self.vbox.pack_start(self._chk_save, True, True, 10)
-        
-        # Setup configuration file path
-        self._conf_path = os.path.join(os.path.expanduser("~/.gnome2/gedit/plugins/"), "reopen-tabs/plugin.conf")
-        
-        # Check if configuration file does not exists
-        if not os.path.exists(self._conf_path):
-            # Create configuration file
-            conf_file = file(self._conf_path, "wt")
-            conf_file.close()
-            
-        # Create configuration dictionary
-        self.read_config()
-        
-    def read_config(self): # Reads configuration from a file
-        self._conf_file = file(self._conf_path, "r+")
-        self._conf_dict = ConfigParser.ConfigParser()
-        self._conf_dict.readfp(self._conf_file)
-        
-        self._conf_file.close()
+		super(conf_dlg, self).__init__(title, parent, 0, buttons)
+		
+		# Create configuration items
+		self._chk_save = gtk.CheckButton(_("Ask for saving on exit"))
+		self._chk_save.connect("toggled", self._on_chk_save_toggled)
+		self.vbox.pack_start(self._chk_save, True, True, 10)
+		
+		# Setup configuration file path
+		self._conf_path = os.path.join(os.path.expanduser("~/.gnome2/gedit/plugins/"), "reopen-tabs/plugin.conf")
+		
+		# Check if configuration file does not exists
+		if not os.path.exists(self._conf_path):
+			# Create configuration file
+			conf_file = file(self._conf_path, "wt")
+			conf_file.close()
+			
+		# Create configuration dictionary
+		self.read_config()
+		
+	def read_config(self): # Reads configuration from a file
+		self._conf_file = file(self._conf_path, "r+")
+		self._conf_dict = ConfigParser.ConfigParser()
+		self._conf_dict.readfp(self._conf_file)
+		
+		self._conf_file.close()
 
-        # Setup default configuration if needed
-        if not self._conf_dict.has_section("common"):
-            self._conf_dict.add_section("common")
-            
-        if not self._conf_dict.has_option("common", "save_prompt"):
-            self._conf_dict.set("common", "save_prompt", "on")
-                
-        if not self._conf_dict.has_option("common", "active_document"):
-            self._conf_dict.set("common", "active_document", "")
-                
-        if not self._conf_dict.has_section("documents"):
-            self._conf_dict.add_section("documents")
-                
-    def write_config(self): # Saves configuration to a file
-        self._conf_file = file(self._conf_path, "r+")
-        self._conf_file.truncate(0)
+		# Setup default configuration if needed
+		if not self._conf_dict.has_section("common"):
+			self._conf_dict.add_section("common")
+			
+		if not self._conf_dict.has_option("common", "save_prompt"):
+			self._conf_dict.set("common", "save_prompt", "on")
+				
+		if not self._conf_dict.has_option("common", "active_document"):
+			self._conf_dict.set("common", "active_document", "")
+				
+		if not self._conf_dict.has_section("documents"):
+			self._conf_dict.add_section("documents")
+				
+	def write_config(self): # Saves configuration to a file
+		self._conf_file = file(self._conf_path, "r+")
+		self._conf_file.truncate(0)
 
-        self._conf_dict.write(self._conf_file)
-        
-        self._conf_file.close()
-    
-    def get_config(self):
-        return self._conf_dict
-    
-    def load_conf(self): # Loads configuration
-        val = self._conf_dict.getboolean("common", "save_prompt")
-        
-        self._chk_save.set_active(val)
-    
-    def _on_chk_save_toggled(self, chk): # React on checkbox toggle        
-        if chk.get_active() == True:
-            val = "on"
-        else:
-            val = "off"
-        
-        self._conf_dict.set("common", "save_prompt", val)
-        
-# ex:ts=4:et:
+		self._conf_dict.write(self._conf_file)
+		
+		self._conf_file.close()
+	
+	def get_config(self):
+		return self._conf_dict
+	
+	def load_conf(self): # Loads configuration
+		val = self._conf_dict.getboolean("common", "save_prompt")
+		
+		self._chk_save.set_active(val)
+	
+	def _on_chk_save_toggled(self, chk): # React on checkbox toggle        
+		if chk.get_active() == True:
+			val = "on"
+		else:
+			val = "off"
+		
+		self._conf_dict.set("common", "save_prompt", val)
+

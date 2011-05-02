@@ -25,32 +25,31 @@ import ConfigParser
 import os
 
 class save_dlg(gtk.Dialog):
-    def __init__(self, parent, config):
-        # Create config diaog window
-        title = _("Reopen Tabs Plugin")
-        buttons = (gtk.STOCK_NO, gtk.RESPONSE_NO, gtk.STOCK_YES, gtk.RESPONSE_YES)
+	def __init__(self, parent, config):
+		# Create config diaog window
+		title = _("Reopen Tabs Plugin")
+		buttons = (gtk.STOCK_NO, gtk.RESPONSE_NO, gtk.STOCK_YES, gtk.RESPONSE_YES)
 
-        super(save_dlg, self).__init__(title, parent, 0, buttons)
-        
-        # Create diaog items
-        self._msg = gtk.Label(_("Restore opened tabs on next run?"))
-        self.vbox.pack_start(self._msg, True, True, 10)
-        
-        self._chk_save = gtk.CheckButton(_("Don't ask again (always save)"))
-        self._chk_save.connect("toggled", self._on_chk_save_toggled)
-        self.vbox.pack_start(self._chk_save, True, True, 10)
+		super(save_dlg, self).__init__(title, parent, 0, buttons)
+		
+		# Create diaog items
+		self._msg = gtk.Label(_("Restore opened tabs on next run?"))
+		self.vbox.pack_start(self._msg, True, True, 10)
+		
+		self._chk_save = gtk.CheckButton(_("Don't ask again (always save)"))
+		self._chk_save.connect("toggled", self._on_chk_save_toggled)
+		self.vbox.pack_start(self._chk_save, True, True, 10)
 
-        self.show_all()
-        
-        # Setup configuration dictionary
-        self._config = config
-    
-    def _on_chk_save_toggled(self, chk): # Reacts on checkbox toggle        
-        if chk.get_active() == True:
-            val = "off"
-        else:
-            val = "on"
-        
-        self._config.set("common", "save_prompt", val)
-        
-# ex:ts=4:et:
+		self.show_all()
+		
+		# Setup configuration dictionary
+		self._config = config
+	
+	def _on_chk_save_toggled(self, chk): # Reacts on checkbox toggle        
+		if chk.get_active() == True:
+			val = "off"
+		else:
+			val = "on"
+		
+		self._config.set("common", "save_prompt", val)
+
