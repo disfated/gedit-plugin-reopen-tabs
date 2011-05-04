@@ -8,7 +8,7 @@ Forked from Eugene Khorev's @ <http://code.google.com/p/reopen-tabs-gedit-plugin
 
  - Restores only existing files.
 
- - To close gedit without saving current session just hit `Ctrl+Q` or `File` - `Exit`.
+ - Doesn't have preferences - when enabled always saves current session. To close gedit without saving current session just hit `Ctrl+Q` or `File` - `Exit`.
 
 
 ### Translation
