@@ -2,7 +2,7 @@
 
 Saves opened tabs on exit and restores them on next gedit starup.
 
-Forked from Eugene Khorev's @ <http://code.google.com/p/reopen-tabs-gedit-plugin/>
+Forked from Eugene Khorev's @ <http://code.google.com/p/reopen-tabs-gedit-plugin/> and fixes some [issues](http://code.google.com/p/reopen-tabs-gedit-plugin/issues/list).
 
  - Restores tabs even when gedit was killed.
 

@@ -234,7 +234,7 @@ class ReopenTabsPlugin(gedit.Plugin):
 				if not os.path.exists(uri.replace('file://', '', 1)): continue
 
 				# Create new tab
-				tab = window.create_tab_from_uri(uri, gedit.encoding_get_current(), 0, True, False)
+				tab = window.create_tab_from_uri(uri, None, 0, True, False)
 		
 				# Check if document was active (and there is NOT file in command line)
 				if d == active and empty_tab != None:
