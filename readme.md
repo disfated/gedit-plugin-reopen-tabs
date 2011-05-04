@@ -6,6 +6,8 @@ Forked from Eugene Khorev's @ <http://code.google.com/p/reopen-tabs-gedit-plugin
 
  - Restores tabs even when gedit was killed.
 
+ - Restores only existing files.
+
  - To close gedit without saving current session just hit `Ctrl+Q` or `File` - `Exit`.
 
 
