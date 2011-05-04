@@ -228,13 +228,17 @@ class ReopenTabsPlugin(gedit.Plugin):
 				uri = self._config.get("documents", d)
 				
 				# Check if document is not already opened
-				if open_docs.count(uri) == 0:
-					# Create new tab
-					tab = window.create_tab_from_uri(uri, gedit.encoding_get_current(), 0, True, False)
-			
-					# Check if document was active (and there is NOT file in command line)
-					if d == active and empty_tab != None:
-						active_tab = tab
+				if open_docs.count(uri) > 0: continue
+
+				# Check if document exists
+				if not os.path.exists(uri.replace('file://', '', 1)): continue
+
+				# Create new tab
+				tab = window.create_tab_from_uri(uri, gedit.encoding_get_current(), 0, True, False)
+		
+				# Check if document was active (and there is NOT file in command line)
+				if d == active and empty_tab != None:
+					active_tab = tab
 
 		# Connect handler that switches saved active document tab
 		log('empty tab: ' + str(empty_tab))
