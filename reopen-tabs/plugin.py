@@ -234,6 +234,7 @@ class ReopenTabsPlugin(gedit.Plugin):
 				if not os.path.exists(uri.replace('file://', '', 1)): continue
 
 				# Create new tab
+				log('ACTION: restore tab "%s"' % uri)
 				tab = window.create_tab_from_uri(uri, None, 0, True, False)
 		
 				# Check if document was active (and there is NOT file in command line)
@@ -246,7 +247,8 @@ class ReopenTabsPlugin(gedit.Plugin):
 		if active_tab:
 			def on_doc_loaded(doc, arg):
 				window.set_active_tab(active_tab)
-				if empty_tab:
+				if empty_tab and empty_tab.get_state() == gedit.TAB_STATE_NORMAL:
+					log('ACTION: closing empty tab')
 					_state = self._state
 					self._state = RELOADER_STATE_CLOSING
 					window.close_tab(empty_tab)
