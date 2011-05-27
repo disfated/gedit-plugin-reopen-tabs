@@ -15,12 +15,12 @@ Forked from Eugene Khorev's @ <http://code.google.com/p/reopen-tabs-gedit-plugin
 
 ### Easy
 
-This plugin is a part of (gmate)[https://github.com/gmate/gmate]. (Install)[https://github.com/gmate/gmate#readme] gmate and you are done.
+This plugin is a part of [gmate](https://github.com/gmate/gmate). [Install](https://github.com/gmate/gmate#readme) gmate and you are done.
 
 ### Manual
 
 1. Download latest source package.
-2. Copy `reopen-tabs.gedit-plugin` file and `reopen-tabs` folder to `~/.gnome2/gedit/plugins/`.
+2. Copy `reopen-tabs.gedit-plugin` file and `reopen-tabs` folder to `~/.gnome2/gedit/plugins/` (or `/usr/lib/gedit-2/plugins/` for system-wide installation).
 3. Open (restart) Gedit.
 4. Go to **Edit** - **Preferences** - **Plugins**.
 5. Enable plugin.
