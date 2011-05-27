@@ -11,13 +11,13 @@ Forked from Eugene Khorev's @ <http://code.google.com/p/reopen-tabs-gedit-plugin
  - Doesn't have preferences - when enabled always saves current session. To close gedit without saving current session just hit `Ctrl+Q` or `File` - `Exit`.
 
 
-# Installation
+## Installation
 
-## Easy
+### Easy
 
 This plugin is a part of (gmate)[https://github.com/gmate/gmate]. (Install)[https://github.com/gmate/gmate#readme] gmate and you are done.
 
-## Manual
+### Manual
 
 1. Download latest source package.
 2. Copy `reopen-tabs.gedit-plugin` file and `reopen-tabs` folder to `~/.gnome2/gedit/plugins/`.
@@ -26,6 +26,6 @@ This plugin is a part of (gmate)[https://github.com/gmate/gmate]. (Install)[http
 5. Enable plugin.
 
 
-### Translation
+## Translation
 
 Currently only `reopen-tabs.gedit-plugin` needs translation. Feel free to contribute.
