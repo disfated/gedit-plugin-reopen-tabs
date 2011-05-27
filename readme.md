@@ -1,4 +1,4 @@
-# reopen-tabs plugin for Gedit
+# Reopen tabs plugin for Gedit
 
 Saves opened tabs on exit and restores them on next gedit starup.
 
