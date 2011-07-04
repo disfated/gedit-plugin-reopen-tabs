@@ -30,6 +30,7 @@ import gettext
 
 APP_NAME = "plugin"
 LOC_PATH = os.path.join(os.path.expanduser("~/.gnome2/gedit/plugins/reopen-tabs/lang"))
+DEBUG = False
 
 gettext.find(APP_NAME, LOC_PATH)
 gettext.install(APP_NAME, LOC_PATH, True)
@@ -41,7 +42,8 @@ RELOADER_STATE_DONE         = "done"
 RELOADER_STATE_CLOSING      = "closing"
 
 def log(msg):
-	print '\033[32m' + msg + '\033[0m'
+	if DEBUG:
+		print '\033[32m' + msg + '\033[0m'
 
 
 class ReopenTabsPlugin(gedit.Plugin):
